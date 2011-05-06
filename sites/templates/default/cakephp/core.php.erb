@@ -1,0 +1,25 @@
+<?php
+Configure::write('debug', <%= @debug %>); // Default 0
+Configure::write('log', true);
+Configure::write('App.encoding', 'UTF-8');
+Configure::write('Cache.disable', <%= @cache_disable %>); // Default false
+//Configure::write('Routing.prefixes', array('admin'));
+//Configure::write('Cache.check', true);
+define('LOG_ERROR', 2);
+Configure::write('Session.save', '<%= @session_save %>'); // Default 'php'
+//Configure::write('Session.model', 'Session');
+//Configure::write('Session.database', 'default');
+Configure::write('Session.cookie', 'CAKEPHP');
+Configure::write('Session.timeout', '120');
+Configure::write('Session.start', true);
+Configure::write('Session.checkAgent', true);
+Configure::write('Security.level', 'medium');
+Configure::write('Security.salt', '<%= @security_salt %>');
+Configure::write('Security.cipherSeed', '<%= @security_cipher_seed %>');
+//Configure::write('Asset.timestamp', true);
+//Configure::write('Asset.filter.css', 'css.php');
+//Configure::write('Asset.filter.js', 'custom_javascript_output_filter.php');
+Configure::write('Acl.classname', 'DbAcl');
+Configure::write('Acl.database', 'default');
+date_default_timezone_set('UTC');
+Cache::config('default', array('engine' => 'File'));

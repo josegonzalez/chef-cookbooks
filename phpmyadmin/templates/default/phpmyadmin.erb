@@ -1,0 +1,21 @@
+<VirtualHost *:80>
+	# Admin email, Server Name (domain name) and any aliases
+	ServerAdmin <%= @node[:apache][:contact] %>
+	ServerName  <%= @node[:pma][:subdomain] %>.<%= @node[:apache][:production][:hostname] %>
+	ServerAlias www.<%= @node[:pma][:subdomain] %>.<%= @node[:apache][:production][:hostname] %>
+
+	# Index file and Document Root (where the public files are located)
+	DirectoryIndex index.php index.html index.html
+	DocumentRoot <%= @node[:apache][:production][:dir] %>/phpmyadmin/public
+	<Directory <%= @node[:apache][:production][:dir] %>/phpmyadmin/public>
+		Options -Indexes FollowSymLinks MultiViews
+		AllowOverride All
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	# Custom log file locations
+	LogLevel warn
+	ErrorLog  <%= @node[:apache][:log_dir] %>/phpmyadmin.error.log
+	CustomLog <%= @node[:apache][:log_dir] %>/phpmyadmin.access.log combined
+</VirtualHost>

@@ -1,0 +1,20 @@
+<IfModule mod_expires.c>
+    Header set Cache-Control "public, no-transform"
+
+    # Expires Headers
+    ExpiresActive on
+
+    ExpiresByType text/css "access plus 3 months"
+    ExpiresByType text/javascript "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+
+    ExpiresByType image/gif "access plus 1 week"
+    ExpiresByType image/jpg "access plus 1 week"
+    ExpiresByType image/jpeg "access plus 1 week"
+    ExpiresByType image/png "access plus 1 week"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresByType application/x-javascript "access plus 1 week"
+    ExpiresByType application/x-shockwave-flash "access plus 1 week"
+
+    ExpiresDefault "access plus 1 weel"
+</IfModule>
