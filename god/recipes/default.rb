@@ -48,6 +48,13 @@ cookbook_file "/etc/init.d/god" do
   mode 0755
 end
 
+link "/usr/local/bin/god" do
+  to "/var/lib/gems/1.8/bin/god"
+  target_file "/usr/local/bin/god"
+  owner "root"
+  group "root"
+end
+
 service "god" do
   supports :status => true, :restart => true, :reload => true
   action [ :enable, :start ]
