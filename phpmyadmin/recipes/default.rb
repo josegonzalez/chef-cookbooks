@@ -27,8 +27,17 @@ directory "#{node[:apache][:production][:dir]}/phpmyadmin" do
   recursive true
 end
 
+remote_file "/tmp/phpmyadmin-#{node[:pma][:version]}.tar.gz" do
+  owner "deploy"
+  group "deploy"
+  source "http://downloads.sourceforge.net/project/phpmyadmin/phpMyAdmin/#{node[:pma][:version]}/phpMyAdmin-#{node[:pma][:version]}-all-languages.tar.gz"
+  checksum "#{node[:pma][:checksum]}"
+  notifies :run, "script[phpmyadmin]", :immediately
+  not_if do ::File.exists?("/tmp/phpmyadmin-#{node[:pma][:version]}.tar.gz") end
+end
+
 script "phpmyadmin" do
-  action :nothing
+  action :run
   interpreter "bash"
   user "deploy"
   cwd "/tmp"
@@ -36,14 +45,7 @@ script "phpmyadmin" do
   tar -C #{node[:apache][:production][:dir]}/phpmyadmin -zxf /tmp/phpmyadmin-#{node[:pma][:version]}.tar.gz
   mv #{node[:apache][:production][:dir]}/phpmyadmin/phpMyAdmin-#{node[:pma][:version]}-all-languages #{node[:apache][:production][:dir]}/phpmyadmin/public
   EOH
-end
-
-remote_file "/tmp/phpmyadmin-#{node[:pma][:version]}.tar.gz" do
-  owner "deploy"
-  group "deploy"
-  source "http://downloads.sourceforge.net/project/phpmyadmin/phpMyAdmin/#{node[:pma][:version]}/phpMyAdmin-#{node[:pma][:version]}-all-languages.tar.gz"
-  checksum "#{node[:pma][:checksum]}"
-  notifies :run, resources(:script => "phpmyadmin"), :immediately
+  not_if do ::File.exists?("#{node[:apache][:production][:dir]}/phpmyadmin/public") end
 end
 
 template "#{node[:apache][:dir]}/sites-available/phpmyadmin" do
