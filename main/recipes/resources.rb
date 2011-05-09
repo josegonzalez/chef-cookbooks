@@ -8,7 +8,7 @@ end
 # CakePHP 1.3.X
 git "#{node[:apache][:production][:dir]}/resources/cakephp1.3" do
   repository "git://github.com/cakephp/cakephp.git"
-  reference "HEAD"
+  reference "9f583097f05fb78ef5958b98a0ef326b3ba3128f"
   user "deploy"
   group "deploy"
   action :checkout
