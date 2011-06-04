@@ -4,6 +4,14 @@
 	ServerName  <%= @subdomain %><%= @hostname %>
 	ServerAlias www.<%= @subdomain %><%= @hostname %>
 
+	# Strip www from url
+	RewriteCond ${SERVER_PROTOCOL} !^https [NC]
+	RewriteCond %{HTTP_HOST} ^www\.(.+)$
+	RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+	RewriteCond %{HTTP_HOST} ^www\.(.+)$
+	RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
 	# Index file and Document Root (where the public files are located)
 	DirectoryIndex <% @resources.each do |resource| -%>index.<%= resource %> <% end -%>
 	DocumentRoot <%= @node[:apache][:production][:dir] %><%= @folder %>

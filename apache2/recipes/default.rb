@@ -205,6 +205,10 @@ include_recipe "apache2::mod_log_config" if platform?("centos", "redhat", "suse"
 # uncomment to get working example site on centos/redhat/fedora
 #apache_site "default"
 
+apache_site "default" do
+  enable false
+end
+
 service "apache2" do
   action :start
 end
