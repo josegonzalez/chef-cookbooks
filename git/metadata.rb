@@ -1,5 +1,5 @@
-maintainer        "SeatGeek, Inc."
-maintainer_email  "dev@seatgeek.com"
+maintainer        "Jose Diaz-Gonzalez"
+maintainer_email  "support@savant.be"
 license           "MIT"
 description       "Installs git, no server"
 
