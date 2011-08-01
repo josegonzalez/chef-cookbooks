@@ -1,6 +1,6 @@
 ##
 # Cookbook Name:: php
-# Recipe:: module_fpdf
+# Recipe:: pear
 #
 # Copyright 2011, Jose Diaz-Gonzalez
 #
@@ -23,6 +23,26 @@
 # THE SOFTWARE.
 #
 
-package "php-fpdf" do
-  action :upgrade
+define :pear_module, :module => nil, :enable => true do
+  
+  include_recipe "php::pear"
+  
+  if params[:enable]
+    execute "/usr/bin/pear install -a #{params[:module]}" do
+      only_if "/bin/sh -c '! /usr/bin/pear info #{params[:module]} 2>&1 1>/dev/null"
+    end
+  end
+  
+end
+
+define :pear_channel, :channel => nil, :enable => true do
+  
+  include_recipe "php::pear"
+  
+  if params[:enable]
+    execute "/usr/bin/pear channel-discover #{params[:channel]}" do
+      only_if "/bin/sh -c '! /usr/bin/pear/channel-info #{params[:channel]} 2>&1 1>/dev/null"
+    end
+  end
+  
 end

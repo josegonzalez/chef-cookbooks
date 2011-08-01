@@ -16,13 +16,6 @@
 # limitations under the License.
 #
 
-pack = value_for_platform(
-  [ "centos", "redhat", "fedora", "suse" ] => {
-    "default" => "php-mcrypt"
-  },
-  "default" => "php5-mcrypt"
-)
-
-package pack do
+package "php5-mcrypt" do
   action :upgrade
 end

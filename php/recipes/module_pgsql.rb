@@ -18,13 +18,6 @@
 # limitations under the License.
 #
 
-pack = value_for_platform(
-  [ "centos", "redhat", "fedora", "suse" ] => {
-    "default" => "php-pgsql"
-  },
-  "default" => "php5-pgsql"
-)
-
-package pack do
+package "php5-pgsql" do
   action :upgrade
 end

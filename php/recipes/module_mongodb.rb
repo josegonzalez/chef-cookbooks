@@ -1,7 +1,7 @@
 ##
 # Cookbook Name:: php
-# Recipe:: module_fpdf
-#
+# Recipe: module_mongodb
+# 
 # Copyright 2011, Jose Diaz-Gonzalez
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,6 +23,17 @@
 # THE SOFTWARE.
 #
 
-package "php-fpdf" do
+package "php5-dev" do
   action :upgrade
+end
+
+execute "pecl install mongo" do
+  creates "/etc/php5/conf.d/mongodb.ini"
+end
+
+cookbook_file "/etc/php5/conf.d/mongodb.ini" do
+  source "mongodb.ini"
+  owner "root"
+  group "root"
+  mode 0644
 end

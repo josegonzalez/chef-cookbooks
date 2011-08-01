@@ -1,6 +1,6 @@
 ##
 # Cookbook Name:: php
-# Recipe:: module_fpdf
+# Recipe: module_snmp
 #
 # Copyright 2011, Jose Diaz-Gonzalez
 #
@@ -23,6 +23,6 @@
 # THE SOFTWARE.
 #
 
-package "php-fpdf" do
+package "php5-snmp" do
   action :upgrade
 end
