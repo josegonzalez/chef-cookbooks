@@ -14,4 +14,15 @@ YMMV.
 
 h2. Todo
 
-- Fix MySQL Server so it doesn't constantly try to reinstall itself.
+- -Fix MySQL Server so it doesn't constantly try to reinstall itself.- Closed by 1e875367
+- Lithium recipe for nginx
+- Support equivalent nginx and apache site setups
+- Move all server configuration into a single json hash (`node[:server]` perhaps?)
+- Add mongodb/redis/elastic_search recipes
+- Switch from MySQL to Percona
+- Setup a default iptables configuration
+- Switch to `memcached` in the PHP configuration (and add a `memcached` CacheEngine to CakePHP)
+- Enable setting up SSL
+- Basic-Auth protection of `staging` environment
+- Enable some sort of automatic backup
+- Variable setup of environments for PHP applications (`environments.php`, symlinking files on deployment etc.)
