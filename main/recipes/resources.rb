@@ -1,4 +1,4 @@
-directory "#{node[:apache][:production][:dir]}/resources" do
+directory "#{node[:server][:production][:dir]}/resources" do
   owner "deploy"
   group "deploy"
   mode "0755"
@@ -6,7 +6,7 @@ directory "#{node[:apache][:production][:dir]}/resources" do
 end
 
 # CakePHP 1.3.X
-git "#{node[:apache][:production][:dir]}/resources/cakephp1.3" do
+git "#{node[:server][:production][:dir]}/resources/cakephp1.3" do
   repository "git://github.com/cakephp/cakephp.git"
   reference "9f583097f05fb78ef5958b98a0ef326b3ba3128f"
   user "deploy"
@@ -15,7 +15,7 @@ git "#{node[:apache][:production][:dir]}/resources/cakephp1.3" do
 end
 
 # CakePHP 1.2.X
-git "#{node[:apache][:production][:dir]}/resources/cakephp1.2" do
+git "#{node[:server][:production][:dir]}/resources/cakephp1.2" do
   repository "git://github.com/cakephp/cakephp.git"
   reference "e6e50e88b284c3340628023ea2e0f62a3fe8f843"
   user "deploy"
@@ -24,7 +24,7 @@ git "#{node[:apache][:production][:dir]}/resources/cakephp1.2" do
 end
 
 # Lithium 0.9.9
-git "#{node[:apache][:production][:dir]}/resources/lithium" do
+git "#{node[:server][:production][:dir]}/resources/lithium" do
   repository "git://github.com/josegonzalez/lithium.git"
   reference "HEAD"
   user "deploy"
@@ -33,7 +33,7 @@ git "#{node[:apache][:production][:dir]}/resources/lithium" do
 end
 
 # Plugins
-directory "#{node[:apache][:production][:dir]}/resources/cakephp-plugins/" do
+directory "#{node[:server][:production][:dir]}/resources/cakephp-plugins/" do
   owner "deploy"
   group "deploy"
   mode "0755"
@@ -42,7 +42,7 @@ end
 
 
 node[:cakephp_plugins].each do |plugin, repo|
-    folder = "#{node[:apache][:production][:dir]}/resources/cakephp-plugins/" + plugin
+    folder = "#{node[:server][:production][:dir]}/resources/cakephp-plugins/" + plugin
     git folder do
       repository repo
       reference "HEAD"

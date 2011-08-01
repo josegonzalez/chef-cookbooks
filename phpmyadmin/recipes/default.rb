@@ -17,10 +17,9 @@
 # limitations under the License.
 #
 
-include_recipe "apache2"
 include_recipe "php"
 
-directory "#{node[:apache][:production][:dir]}/phpmyadmin" do
+directory "#{node[:server][:production][:dir]}/phpmyadmin" do
   owner "deploy"
   group "deploy"
   mode "0755"
@@ -42,19 +41,19 @@ script "phpmyadmin" do
   user "deploy"
   cwd "/tmp"
   code <<-EOH
-  tar -C #{node[:apache][:production][:dir]}/phpmyadmin -zxf /tmp/phpmyadmin-#{node[:pma][:version]}.tar.gz
-  mv #{node[:apache][:production][:dir]}/phpmyadmin/phpMyAdmin-#{node[:pma][:version]}-all-languages #{node[:apache][:production][:dir]}/phpmyadmin/public
+  tar -C #{node[:server][:production][:dir]}/phpmyadmin -zxf /tmp/phpmyadmin-#{node[:pma][:version]}.tar.gz
+  mv #{node[:server][:production][:dir]}/phpmyadmin/phpMyAdmin-#{node[:pma][:version]}-all-languages #{node[:server][:production][:dir]}/phpmyadmin/public
   EOH
-  not_if do ::File.exists?("#{node[:apache][:production][:dir]}/phpmyadmin/public") end
+  not_if do ::File.exists?("#{node[:server][:production][:dir]}/phpmyadmin/public") end
 end
 
-template "#{node[:apache][:dir]}/sites-available/phpmyadmin" do
+template "#{node[:nginx][:dir]}/sites-available/phpmyadmin" do
   source "phpmyadmin.erb"
   owner "deploy"
   group "deploy"
   mode 0644
 end
 
-apache_site "phpmyadmin" do
+nginx_site "phpmyadmin" do
   action :enable
 end
