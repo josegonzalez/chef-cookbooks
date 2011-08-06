@@ -162,24 +162,45 @@ node[:cakephp_applications].each do |hostname, sites|
       end
 
       # Nginx setup
-      template "#{node[:nginx][:dir]}/sites-available/#{hostname}.#{site_base}-#{environment}" do
-        source "nginx_php.erb"
-        owner "root"
-        group "root"
-        mode 0644
-        variables(
-          :folder_base=> "#{env_config[:dir]}/#{hostname}/#{site_base}",
-          :root       => "#{env_config[:dir]}/#{hostname}/#{site_base}/public/webroot",
-          :nick       => "#{site_base}.#{hostname}",
-          :resources  => [ "php", "html", "htm" ],
-          :hostname   => hostname,
-          :subdomain  => site_info[:subdomain],
-          :environment=> environment
-        )
+      # Note that each site can have multiple environments (which we are already looping through)
+      # as well as multiple "apps" pointing at the same environment
+      # for example, the api and the main app might be the same application, but simply be different
+      # in their bootstrap and routes folder, based on environment variables
+      if !site_info[:variables][environment].key?(:apps)
+        site_info[:variables][environment][:apps] = {
+          "default" => {"CAKEPHP_APP" => "default"}
+        }
       end
 
-      nginx_site "#{hostname}.#{site_base}-#{environment}" do
-        action :enable
+      site_info[:variables][environment][:apps].each do |app_env, env_vars|
+        template_name = "#{hostname}.#{site_base}-#{environment}"
+        template_name += "_#{app_env}" unless app_env == "default"
+
+        subdomain = site_info[:subdomain].empty? ? "" : site_info[:subdomain] + "."
+        subdomain = app_env == "default" ? subdomain : subdomain + app_env + "."
+
+        template "#{node[:nginx][:dir]}/sites-available/#{template_name}" do
+          source "nginx_php.erb"
+          owner "root"
+          group "root"
+          mode 0644
+          variables(
+            :folder_base=> "#{env_config[:dir]}/#{hostname}/#{site_base}",
+            :root       => "#{env_config[:dir]}/#{hostname}/#{site_base}/public/webroot",
+            :nick       => "#{site_base}.#{hostname}",
+            :resources  => [ "php", "html", "htm" ],
+            :hostname   => hostname,
+            :subdomain  => subdomain,
+            :environment=> environment,
+            :app_env    => app_env,
+            :env_vars   => env_vars
+          )
+        end
+
+        nginx_site "#{template_name}" do
+          action :enable
+        end
+
       end
 
     end

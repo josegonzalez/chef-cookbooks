@@ -55,8 +55,9 @@ server {
     fastcgi_param  SCRIPT_FILENAME  $document_root$script;
     fastcgi_param  SCRIPT_NAME      $script;
     fastcgi_param  PATH_INFO        $path_info;
-    fastcgi_param  SYMFONY_APP      customer;
-    fastcgi_param  SYMFONY_ENV      prod;
+<% @env_vars.each do |key, value| -%>
+    fastcgi_param  <%= key %>       <%= value %>;
+<% end -%>
   }
 
   location ~ /\.ht {
