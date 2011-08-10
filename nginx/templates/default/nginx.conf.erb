@@ -22,7 +22,7 @@ http {
                     '"$request" $status $body_bytes_sent '
                     '"$http_referer" "$http_user_agent" '
                     '<%= @node[:hostname] %> $request_time $upstream_response_time $pipe';
-  access_log	<%= @node[:nginx][:log_dir] %>/access.log sg;
+  access_log	<%= @node[:nginx][:log_dir] %>/access.log;
 
   sendfile on;
   tcp_nopush on;

@@ -11,8 +11,8 @@ server {
   server_tokens off;
   server_name_in_redirect off;
 
-  access_log   <%= node[:nginx][:log_dir] %>/<%= @subdomain %><%= @hostname %>-access.log sg;
-  error_log    <%= node[:nginx][:log_dir] %>/<%= @subdomain %><%= @hostname %>-error.log;
+  access_log   <%= @node[:nginx][:log_dir] %>/<%= @subdomain %><%= @hostname %>-access.log;
+  error_log    <%= @node[:nginx][:log_dir] %>/<%= @subdomain %><%= @hostname %>-error.log;
 
   # remove www from the url
   if ($host ~* www\.(.*)) {

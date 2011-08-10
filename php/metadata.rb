@@ -19,6 +19,7 @@ recipe            "php::module_sqlite3", "Install the php5-sqlite3 package"
 recipe            "php::pear", "Install the php-pear package"
 recipe            "php::php4", "Install packages for PHP version 4"
 recipe            "php::php5-cgi", "Install the php5-cgi package"
+recipe            "php::php5-cgi-restart", "Restart the php5-cgi package"
 recipe            "php::php5", "Install php5 packages and php.ini config file"
 
 supports "ubuntu"

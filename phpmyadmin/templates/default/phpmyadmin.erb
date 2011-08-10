@@ -11,7 +11,7 @@ server {
   server_tokens off;
   server_name_in_redirect off;
 
-  access_log   <%= @node[:nginx][:log_dir] %>/<%= @node[:pma][:phpmyadmin_hostname] %>-access.log sg;
+  access_log   <%= @node[:nginx][:log_dir] %>/<%= @node[:pma][:phpmyadmin_hostname] %>-access.log;
   error_log    <%= @node[:nginx][:log_dir] %>/<%= @node[:pma][:phpmyadmin_hostname] %>-error.log;
 
   # remove www from the url
