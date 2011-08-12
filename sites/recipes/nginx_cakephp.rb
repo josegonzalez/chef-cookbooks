@@ -223,7 +223,6 @@ node[:cakephp_applications].each do |hostname, sites|
             group "www-data"
             mode 0644
             variables(:wordpress_vars => site_info[:variables][environment][:wordpress])
-            not_if do ::File.exists?("/data/shared/blogs/#{template_name}/blog/wp-config.php") end
           end
         end
 
