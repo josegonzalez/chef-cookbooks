@@ -37,14 +37,14 @@ server {
 
 <% end %>
   # Set image format types to expire in a very long time
-  location ~* ^.+\.(gif|jpg|jpeg|png|ico)$ {
+  location ~* ^(img).+\.(gif|jpg|jpeg|png|ico)$ {
     expires modified +720h;
     log_not_found off;
     access_log off;
   }
 
   # Set css and js to expire in a very long time
-  location ~* ^.+\.(css|js|htc)$ {
+  location ~* ^(js|css|img).+\.(css|js|htc)$ {
     access_log off;
     expires max;
   }
