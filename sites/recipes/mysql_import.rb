@@ -46,16 +46,27 @@ ruby_block "Create users" do
     m.query('SELECT User FROM mysql.user').each { |user| existing << user.to_s}
 
     node[:mysql][:users].each do |username, config|
-      next if existing.include?(username)
+      # next if existing.include?(username)
 
-      puts '[' + DateTime.now.to_s + '] Adding new user::' + username
-      m.query(sprintf("CREATE USER '%s'@'localhost' IDENTIFIED BY  '%s'", username, config['password']))
-      m.query(sprintf("GRANT USAGE ON `%s` . * TO  '%s'@'localhost' IDENTIFIED BY  '%s' 
-                          WITH MAX_QUERIES_PER_HOUR 0 
-                               MAX_CONNECTIONS_PER_HOUR 0 
-                               MAX_UPDATES_PER_HOUR 0 
-                               MAX_USER_CONNECTIONS 0 ", config['database'], username, config['password']))
-      m.query(sprintf("GRANT ALL PRIVILEGES ON  `%s` . * TO  '%s'@'localhost'", config['database'], username))
+      begin
+        puts '[' + DateTime.now.to_s + '] Adding new user::' + username
+        m.query(sprintf("CREATE USER '%s'@'localhost' IDENTIFIED BY  '%s'", username, config['password']))
+      rescue
+      end
+      begin
+        puts '[' + DateTime.now.to_s + '] Granting usage'
+        m.query(sprintf("GRANT USAGE ON `%s` . * TO  '%s'@'localhost' IDENTIFIED BY  '%s' 
+                            WITH MAX_QUERIES_PER_HOUR 0 
+                                 MAX_CONNECTIONS_PER_HOUR 0 
+                                 MAX_UPDATES_PER_HOUR 0 
+                                 MAX_USER_CONNECTIONS 0 ", config['database'], username, config['password']))
+      rescue
+      end
+      begin
+        puts '[' + DateTime.now.to_s + '] Granting privileges'
+        m.query(sprintf("GRANT ALL PRIVILEGES ON  `%s` . * TO  '%s'@'localhost'", config['database'], username))
+      rescue
+      end
     end
 
   end
