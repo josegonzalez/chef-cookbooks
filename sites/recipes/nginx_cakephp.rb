@@ -152,6 +152,7 @@ node[:cakephp_applications].each do |hostname, sites|
         group "deploy"
         mode 0644
         variables(
+          :hostname             => site_info[:variables][environment][:hostname],
           :login                => site_info[:variables][environment][:login],
           :password             => site_info[:variables][environment][:password],
           :database             => site_info[:variables][environment][:database]
