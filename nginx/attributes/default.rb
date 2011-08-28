@@ -26,7 +26,7 @@ set_unless[:nginx][:gzip_vary] = "on"
 
 set_unless[:nginx][:keepalive]          = "on"
 set_unless[:nginx][:keepalive_timeout]  = 65
-set_unless[:nginx][:worker_processes]   = cpu[:total]
+set_unless[:nginx][:worker_processes]   = 16
 set_unless[:nginx][:worker_connections] = 2048
 set_unless[:nginx][:server_names_hash_bucket_size] = 64
 set_unless[:nginx][:client_max_body_size] = "20M"
