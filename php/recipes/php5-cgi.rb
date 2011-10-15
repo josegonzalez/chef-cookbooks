@@ -27,11 +27,12 @@ package "php5-cgi" do
   action :upgrade
 end
 
-cookbook_file "/etc/default/php5-fastcgi" do
-  source "php5-fastcgi-defaults"
+template "/etc/default/php5-fastcgi" do
+  source "php5-fastcgi-defaults.erb"
   owner "root"
   group "root"
-  mode "0644"
+  mode 0644
+  variables(node[:php])
 end
 
 cookbook_file "/etc/init.d/php5-fastcgi" do
