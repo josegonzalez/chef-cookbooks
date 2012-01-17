@@ -36,13 +36,6 @@ server {
   <%= "location = /blog { rewrite ^/* /blog/ last; }" %>
 
 <% end %>
-  # Set certain static files to expire in a very long time
-  location ~* ^(img|theme|js|css|cache_css|cache_js|fonts).+\.(js|css|htc|png|jpg|jpeg|gif|ico|eot|svg|ttf|woff)$ {
-    expires modified +720h;
-    log_not_found off;
-    access_log off;
-  }
-
   location = /robots.txt {
     allow all;
     access_log off;
@@ -66,10 +59,12 @@ server {
 
 <% end %>
   location / {
-    # If the file exists as a static file serve it directly without
-    # running all the other rewite tests on it
+    # Set certain static files to expire in a very long time
     if (-f $request_filename) {
       expires modified +720h;
+      add_header Cache-Control public;
+      log_not_found off;
+      access_log off;
       break;
     }
 
