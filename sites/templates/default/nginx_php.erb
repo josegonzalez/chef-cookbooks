@@ -36,17 +36,11 @@ server {
   <%= "location = /blog { rewrite ^/* /blog/ last; }" %>
 
 <% end %>
-  # Set image format types to expire in a very long time
-  location ~* ^(img).+\.(gif|jpg|jpeg|png|ico)$ {
+  # Set certain static files to expire in a very long time
+  location ~* ^(img|theme|js|css|cache_css|cache_js|fonts).+\.(js|css|htc|png|jpg|jpeg|gif|ico|eot|svg|ttf|woff)$ {
     expires modified +720h;
     log_not_found off;
     access_log off;
-  }
-
-  # Set css and js to expire in a very long time
-  location ~* ^(js|css|img).+\.(css|js|htc)$ {
-    access_log off;
-    expires max;
   }
 
   location = /robots.txt {
