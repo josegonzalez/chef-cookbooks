@@ -1,0 +1,15 @@
+{
+  "name": "www",
+  "chef_type": "role",
+  "json_class": "Chef::Role",
+  "description": "www-rs instance",
+  "override_attributes": {},
+  "default_attributes": {},
+  "run_list": [
+    "recipe[core::php]",
+    "recipe[core::codebase]",
+    "recipe[percona::client]",
+    "recipe[nginx::server]",
+    "recipe[core::nginx]"
+  ]
+}

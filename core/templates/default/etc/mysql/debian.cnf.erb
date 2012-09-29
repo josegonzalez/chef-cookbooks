@@ -1,0 +1,12 @@
+[client]
+host     = 127.0.0.1
+user     = <%= @debian_user %>
+password = <%= @debian_user_pw %>
+socket   = /var/run/mysqld/mysqld.sock
+
+[mysql_upgrade]
+host     = 127.0.0.1
+user     = <%= @debian_user %>
+password = <%= @debian_user_pw %>
+socket   = /var/run/mysqld/mysqld.sock
+basedir  = /usr

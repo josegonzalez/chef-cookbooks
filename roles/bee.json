@@ -1,0 +1,13 @@
+{
+  "name": "bee",
+  "chef_type": "role",
+  "json_class": "Chef::Role",
+  "description": "bee-rs instance",
+  "override_attributes": {},
+  "default_attributes": {},
+  "run_list": [
+	  "recipe[core::php]",
+	  "recipe[core::codebase]",
+	  "recipe[percona::client]"
+  ]
+}

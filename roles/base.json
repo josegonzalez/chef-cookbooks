@@ -1,0 +1,52 @@
+{
+  "name": "base",
+  "chef_type": "role",
+  "json_class": "Chef::Role",
+  "description": "base-rs instance",
+  "override_attributes": {},
+  "default_attributes": {
+    "authorization": {
+      "sudo": {
+        "users": [ "deploy", "jose" ],
+        "groups": [ ]
+      },
+      "deploy": [
+        {
+          "uid": 1002,
+          "username": "jose",
+          "fullname": "Jose Diaz-Gonzalez",
+          "ssh_keys": [
+            "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA2xccmkWiO9cvGwvgUwFzCF7lJrsEscfscOxLP7gMDwvI++xOa30873J7843bSV7xokGrf4wEXtbDjelC9ixYcxUiUEXQRsMqwPU6FuFKbio9glgFJt+kJwt3MXgy8dtyo5X8uNoXeEjIoDQQD2wqL0qzKMi5OnA9ch5ToE5yu5MON+6E3YMUdHd6Clo9SUrrV9owREh7H5dISqqce1TeJ2ERX0SeAJ2x7AV3GA+zSHo1E3I/cwuR0G2y+PvcKd+23e4genJh6pd8XzJeLX9UxWFuClzkIiBLcfhdTOC4gmO67JM8XEOXpQ+Lzx9UdAY0rGVw17pNLJ5lJeMPvU2yvQ== jose@mactaku.local"
+          ]
+        }
+      ]
+    },
+    "core": {
+      "packages": [
+        "libevent-dev",
+        "libxml2-dev",
+        "libxslt1-dev",
+        "snmp",
+        "supervisor",
+        "xfsprogs"
+      ]
+    },
+    "redis": {
+      "config": {
+        "dir": "/data/redis"
+      }
+    }
+  },
+  "run_list": [
+    "recipe[hostname::default]",
+    "recipe[git::default]",
+    "recipe[subversion::default]",
+    "recipe[core::apt]",
+    "recipe[core::users]",
+    "recipe[core::hosts]",
+    "recipe[core::handle_logs]",
+    "recipe[core::packages]",
+    "recipe[postfix::install]",
+    "recipe[postfix::aliases]"
+  ]
+}

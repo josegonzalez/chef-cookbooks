@@ -1,0 +1,15 @@
+{
+  "name": "box-core",
+  "chef_type": "role",
+  "json_class": "Chef::Role",
+  "description": "box-core-rs instance",
+  "override_attributes": {},
+  "default_attributes": {},
+  "run_list": [
+    "role[base]",
+    "role[bee]",
+    "role[www]",
+    "role[mysql]",
+    "role[redis]"
+  ]
+}

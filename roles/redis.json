@@ -1,0 +1,12 @@
+{
+  "name": "redis",
+  "chef_type": "role",
+  "json_class": "Chef::Role",
+  "description": "redis-rs instance",
+  "override_attributes": {},
+  "default_attributes": {},
+  "run_list": [
+    "recipe[core::redis]",
+    "recipe[redis::server]"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "mysql",
+  "chef_type": "role",
+  "json_class": "Chef::Role",
+  "description": "mysql-rs instance",
+  "override_attributes": {},
+  "default_attributes": {},
+  "run_list": [
+    "recipe[core::mysql_start]",
+    "recipe[percona::server]",
+    "recipe[core::mysql_end]"
+  ]
+}

@@ -1,0 +1,79 @@
+<?php
+$cfg['PmaAbsoluteUri'] = 'http://'.$_SERVER["SERVER_NAME"].'/phpmyadmin/';
+$cfg['PmaAbsoluteUri_DisableWarning'] = FALSE;
+$cfg['PmaNoRelation_DisableWarning']  = FALSE;
+// $cfg['blowfish_secret'] = '';
+
+
+$db_user      = '<%= node[:mysql][:users][:readonly][:username] %>';
+$db_user_pass = '<%= node[:mysql][:users][:readonly][:password] %>';
+$db_servers   = array('localhost');
+
+$fail = (!isset($_SERVER['PHP_AUTH_USER']) || in_array($_SERVER['PHP_AUTH_USER'], array("<%= @node[:phpmyadmin][:php_auth_user] %>", "dev")));
+
+if ($fail) {
+  header('WWW-Authenticate: Basic realm="<%= @node[:phpmyadmin][:basic_realm] %>"');
+  header('HTTP/1.0 401 Unauthorized');
+  echo "SNAP CRACKLE POP MICE CRISPIES";
+  exit;
+}
+
+if ($_SERVER['PHP_AUTH_USER'] == 'dev') {
+  $db_user      = '<%= node[:mysql][:users][:dev][:username] %>';
+  $db_user_pass = '<%= node[:mysql][:users][:dev][:password] %>';
+  $db_servers   = array('localhost');
+}
+
+/**
+ * Server(s) configuration
+ */
+$i = 0;
+
+foreach ($db_servers as $db_server) {
+  $i++;
+  $cfg['Servers'][$i]['host']            = $db_server;
+  $cfg['Servers'][$i]['connect_type']    = 'tcp';
+  $cfg['Servers'][$i]['extension']       = 'mysqli';
+  $cfg['Servers'][$i]['compress']        = FALSE;
+  $cfg['Servers'][$i]['auth_type']       = 'config';
+  $cfg['Servers'][$i]['user']            = $db_user;
+  $cfg['Servers'][$i]['password']        = $db_user_pass;
+  $cfg['Servers'][$i]['pmadb']           = 'phpmyadmin';
+  $cfg['Servers'][$i]['bookmarktable']   = 'pma_bookmark';
+  $cfg['Servers'][$i]['relation']        = 'pma_relation';
+  $cfg['Servers'][$i]['table_info']      = 'pma_table_info';
+  $cfg['Servers'][$i]['table_coords']    = 'pma_table_coords';
+  $cfg['Servers'][$i]['pdf_pages']       = 'pma_pdf_pages';
+  $cfg['Servers'][$i]['column_info']     = 'pma_column_info';
+  $cfg['Servers'][$i]['history']         = 'pma_history';
+  $cfg['Servers'][$i]['designer_coords'] = 'pma_designer_coords';
+  $cfg['Servers'][$i]['verbose_check']   = TRUE;
+  $cfg['Servers'][$i]['AllowRoot']       = TRUE;
+  $cfg['Servers'][$i]['ssl']             = FALSE;
+}
+
+$cfg['ServerDefault'] = 1;
+
+$cfg['DisplayDatabasesList']    = FALSE;
+$cfg['PersistentConnections']   = FALSE;
+$cfg['LeftFrameLight']          = TRUE;
+$cfg['LeftFrameDBTree']         = FALSE;
+$cfg['LeftFrameTableSeparator'] = '_';
+$cfg['LeftFrameTableLevel']     = '1';
+$cfg['LeftDisplayLogo']         = FALSE;
+$cfg['LeftDisplayServers']      = TRUE;
+$cfg['MaxDbList']               = 32767;
+$cfg['MaxTableList']            = 32767;
+$cfg['NaviWidth']               = 210;
+$cfg['ShowAll']                 = TRUE;
+$cfg['MaxRows']                 = 500;
+$cfg['DefaultTabServer']        = 'server_databases.php';
+$cfg['DefaultTabDatabase']      = 'db_details.php';
+$cfg['DefaultTabTable']         = 'tbl_properties_structure.php';
+$cfg['QueryHistoryDB']          = TRUE;
+$cfg['QueryWindowDefTab']       = 'sql';
+$cfg['QueryHistoryMax']         = 25;
+$cfg['UploadDir']               = '/tmp/';
+$cfg['TempDir']                 = '/tmp/';
+$cfg['ShowPhpInfo']             = true;
+?>
