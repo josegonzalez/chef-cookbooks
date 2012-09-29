@@ -1,14 +1,27 @@
 import os
+import json
 from fabric.api import run, sudo, put, cd, env
 
-CHEF_ENV = os.environ.get('CHEF_ENV', 'staging')
+settings = {}
 
-FAB_USER = os.environ.get('FAB_USER', None)
-FAB_HOSTNAME = os.environ.get('FAB_HOSTNAME', None)
-FAB_HOST = os.environ.get('FAB_HOST', None)
-FAB_PASSWORD = os.environ.get('FAB_PASSWORD', None)
 FAB_DNA = os.environ.get('FAB_DNA', None)
-FAB_CHEF_REPO = os.environ.get('FAB_CHEF_REPO', None)
+# Try to load defaults from dna file
+try:
+    with open("dna/%s.json" % FAB_DNA) as f:
+        contents = f.read()
+        data = json.loads(contents)
+        fab_data = data.get('fab', None)
+        if fab_data is None:
+            raise Exception("No fab data in dna file")
+        settings = fab_data
+except:
+    print "Error decoding dna for fab defaults"
+
+FAB_USER = os.environ.get('FAB_USER',           settings.get('fab_user', None))
+FAB_HOSTNAME = os.environ.get('FAB_HOSTNAME',   settings.get('fab_hostname', None))
+FAB_HOST = os.environ.get('FAB_HOST',           settings.get('fab_host', None))
+FAB_PASSWORD = os.environ.get('FAB_PASSWORD',   settings.get('fab_password', None))
+FAB_CHEF_REPO = os.environ.get('FAB_CHEF_REPO', settings.get('fab_chef_repo', None))
 
 env.connection_attempts = 4
 env.password = FAB_PASSWORD
